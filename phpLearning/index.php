@@ -4,20 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="./../index.css">
 </head>
 <body>
+  <h1 class="bg-green-900 text-white font-bold text-center py-4 text-2xl mb-6 w-full">Welcome to PHP Learning</h1>
   <!-- <form action="index.php" method="post">
     <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
+    <input class="border" type="text" id="username" name="username" required>
     <br>
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+    <input class="border" type="password" id="password" name="password" required>
     <br>
-    <input type="submit" value="Submit">
+    <input class="border" type="submit" value="Submit">
   </form> -->
 
   <!-- Some Math functions -->
-   <form action="index.php" method="get">
+   <!-- <form action="index.php" method="get">
     <label>Insert Number:</label>
     <input type="text" name="number">
     <br>
@@ -28,7 +30,7 @@
     <input type="text" name="number2">
     <br>
     <input type="submit" value="Submit">
-   </form>
+   </form> -->
   
 </body>
 </html>
@@ -42,6 +44,9 @@
  // Print
 //  echo "$x <br> $y";
 
+//  $proma = "Proma didi";
+//  echo "This is {$proma}";
+
 /** =================================================================== */
 
 /**
@@ -53,6 +58,9 @@
 //  $username = $_GET["username"];
 //  $password = $_GET["password"];
 //  echo "username: {$username} <br> password: {$password}";
+
+// $username = $_POST["username"];
+// echo $username;
 
 /** =================================================================== */
 
@@ -75,6 +83,8 @@
 // $number1 = $_GET["number1"];
 // $number2 = $_GET["number2"];
 
+// $number = 5.2;
+
 // abs() returns absolute/positive value
 // $absolute = abs($number);
 // echo "absolute value: {$absolute} <br>";
@@ -83,11 +93,11 @@
 // $round = round($number);
 // echo "Rounded: {$round} <br>";
 
-// floor()
+// // floor()
 // $floor = floor($number);
 // echo "Floor: {$floor} <br>";
 
-// ceil()
+// // ceil()
 // $ceil = ceil($number);
 // echo "Ceil: {$ceil} <br>";
 
@@ -109,6 +119,7 @@
 // echo("Min: {$min} <br>");
 
 // pi() - return value of pi - 3.141592635898
+// echo pi();
 // rand() - returns complete random number upto 2 billions
 // rand(1, 6) - returns a random number within 1-6
 
@@ -127,6 +138,63 @@
 
 /** ====================================================================== */
 
+// Arrays
+// $foods = array("apple", "banana", "orange", "coconut");
 
+// array_push($foods, "tomato", "cake");  // Inserts Items from the end
+// array_pop($foods); // Removes last item
+// array_shift($foods); // Removes first Item
+// $foods1 = array_reverse($foods); // Reverse the item index
+// echo count($foods) . "<br>";
+
+// foreach($foods as $food){
+//   echo $food . "<br>";
+// }
+
+
+/** ======================================================================= */
+
+// Associativve array - key => value paris array
+
+// $associative = array("name" => "orange", 
+//                       "age" => 25, 
+//                       "country" => "Dreamland");
+
+// $associative["name"] = "Apple";
+
+// foreach($associative as $key => $value){
+//   echo $key, " = ", $value . "<br>";
+// }
+
+// $associative["age"] = 45;
+
+// echo $associative["age"];
+
+
+/** ========================================================================= */
+
+// isset() - Returns TRUE if a variable is declared and not nul
+// empty() - Returns TRUE if a varibale is not declared,  false, null, ""
+
+
+/** ========================================================================= */
+
+// Funations - block of re-usable code
+
+// function is_even(){
+//   echo "2 is even number";
+// }
+
+// is_even();
+
+/** ========================================================================= */
+
+// String Functions
+
+// $username = "Pine Apple";
+
+
+
+// echo $username;
 
 ?>
