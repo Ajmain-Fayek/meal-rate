@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("./../libs/db.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +14,7 @@
 </head>
 
 <body>
-  <div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="flex items-center justify-center min-h-screen bg-radial-[at_25%_25%] from-purple-100 to-blue-200">
     <div class="w-full max-w-md p-8 bg-white rounded-2xl shadow-lg">
       <h2 class="text-2xl font-bold text-center text-gray-800 mb-2 underline">Meal Rate Login - Group Admin</h2>
       <p class="text-sm text-gray-600 mb-8 text-center">
@@ -18,20 +23,29 @@
 
       </p>
 
+      <?php if (isset($_SESSION["login_error"]) && $_SESSION["login_error"]): ?>
+        <p class="p-2 mb-4 text-center rounded-lg bg-red-100 text-red-700 border border-red-600">
+          <?php echo $_SESSION["login_error"]; ?>
+        </p>
+      <?php endif; ?>
+
       <form action="login_process.php" method="post" class="space-y-5">
 
-        <!-- phone -->
+        <!-- Group Name -->
         <div>
-          <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-          <input type="number" id="phone" name="phone" required autofocus
+          <label for="group-name" class="block text-sm font-medium text-gray-700">Group Name</label>
+          <input type="text" id="group-name" name="group-name" required
+            placeholder="Ex: Engineers-Home"
             class="w-full mt-1 px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300" />
         </div>
+
 
         <!-- Password -->
         <div>
           <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
           <div class="relative">
             <input type="password" id="password" name="password" required
+              placeholder="Password"
               class="w-full mt-1 px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300 pr-10" />
 
             <!-- Toggle Button -->

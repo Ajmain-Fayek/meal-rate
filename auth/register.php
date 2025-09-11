@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="flex items-center justify-center min-h-screen bg-radial-[at_25%_25%] from-purple-100 to-blue-200">
     <div class="w-full max-w-md p-8 bg-white rounded-2xl shadow-lg">
       <h2 class="text-2xl font-bold text-center text-gray-800 mb-2 underline">Register</h2>
       <p class="text-sm text-gray-600 mb-8 text-center">
@@ -17,17 +17,14 @@
       </p>
       <form action="register_process.php" method="POST" class="space-y-5">
 
-        <!-- Name -->
+        <!-- Group Name -->
         <div>
-          <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-          <input type="text" id="name" name="name" required
-            class="w-full mt-1 px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300" />
-        </div>
-
-        <!-- Phone -->
-        <div>
-          <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-          <input type="number" id="phone" name="phone" required
+          <label for="group-name" class="block text-sm font-medium text-gray-700">Group Name
+            <br />
+            <span class="text-red-500">*case-sensitive, this will use as username for login</span>
+          </label>
+          <input type="text" id="group-name" name="group-name" required
+            placeholder="Ex: Engineers-Home"
             class="w-full mt-1 px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300" />
         </div>
 
@@ -36,6 +33,7 @@
           <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
           <div class="relative">
             <input type="password" id="password" name="password" required
+              placeholder="Password"
               class="w-full mt-1 px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300 pr-10" />
 
             <!-- Toggle Button -->

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="flex items-center justify-center min-h-screen bg-radial-[at_25%_25%] from-purple-100 to-blue-200">
     <div class="w-full max-w-md p-8 bg-white rounded-2xl shadow-lg">
       <h2 class="text-2xl font-bold text-center text-gray-800 mb-2 underline">Meal Rate Login - Member</h2>
       <p class="text-sm text-gray-600 mb-8 text-center">
