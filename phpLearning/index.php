@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="./../index.css">
 </head>
+
 <body>
   <h1 class="bg-green-900 text-white font-bold text-center py-4 text-2xl mb-6 w-full">Welcome to PHP Learning</h1>
   <!-- <form action="index.php" method="post">
@@ -19,7 +21,7 @@
   </form> -->
 
   <!-- Some Math functions -->
-   <!-- <form action="index.php" method="get">
+  <!-- <form action="index.php" method="get">
     <label>Insert Number:</label>
     <input type="text" name="number">
     <br>
@@ -31,17 +33,18 @@
     <br>
     <input type="submit" value="Submit">
    </form> -->
-  
+
 </body>
+
 </html>
 
 <?php
- // Variables
- // $<variable-name> = <value>
+// Variables
+// $<variable-name> = <value>
 //  $x = "Hello world!";
 //  $y = 1234;
 
- // Print
+// Print
 //  echo "$x <br> $y";
 
 //  $proma = "Proma didi";
@@ -67,7 +70,7 @@
 /**
  * Get form data form HTML form (secure)
  *  Does not embeds values into the url
- * $_POST["<value of name attribute>"] global varibale */ 
+ * $_POST["<value of name attribute>"] global varibale */
 
 // $username1 = $_POST["username"];
 // $password1 = $_POST["password"];
