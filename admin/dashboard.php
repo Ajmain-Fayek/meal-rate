@@ -18,7 +18,7 @@
   <div class="min-h-[calc(100vh-185px)] flex">
     <!-- Side Bar -->
     <?php
-    include("./../components/sideBar.html")
+    include("./../components/adminSideBar.html")
     ?>
 
     <!-- Main container -->
