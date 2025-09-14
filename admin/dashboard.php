@@ -26,11 +26,6 @@ if ($row = $result->fetch_assoc()) {
   $members_count = $row['count'];
 }
 
-// You can add more queries here to get deposits, meals, etc.
-?>
-
-<?php
-
 
 // Later replace with DB connection
 $users = ["Ajmain", "Nobel", "Siddik", "Sabbir", "Faisal"];
@@ -75,37 +70,25 @@ $groceryData = [
 
       <div class="grid grid-cols-1 items-start md:grid-cols-2 xl:grid-cols-3 gap-6">
 
-        <!-- Deposit Management -->
-        <div class="bg-white shadow-md rounded-xl p-6">
-          <h2 class="text-xl font-semibold mb-4">Add Deposit</h2>
-          <form action="actions/addDeposit.php" method="POST" class="space-y-3">
-            <select name="user" class="w-full border border-gray-400 rounded p-2">
-              <?php foreach ($users as $user): ?>
-                <option value="<?= $user ?>"><?= $user ?></option>
-              <?php endforeach; ?>
-            </select>
-            <input type="number" name="amount" placeholder="Enter deposit amount" class="w-full border border-gray-400 rounded p-2" required>
-            <button type="submit" class="w-full bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700">Save</button>
-          </form>
-        </div>
+
 
         <!-- Meal Entry -->
-        <div class="bg-white shadow-md rounded-xl p-6">
-          <h2 class="text-xl font-semibold mb-4">Add Meal</h2>
+        <div class="bg-green-50 border border-green-600 text-black shadow-md rounded-xl p-6">
+          <h2 class="text-xl font-semibold mb-4 text-green-700">Add Meal</h2>
           <form action="actions/addMeal.php" method="POST" class="space-y-3">
 
             <!-- Date -->
-            <input type="date" name="date" class="w-full border border-gray-400 rounded p-2" required>
+            <input type="date" name="mealDate" class="w-full border border-green-400 rounded p-2 outline-0 focus:outline-1 focus:border-green-600 focus:outline-green-600" required>
 
             <!-- Apply to all checkbox -->
             <div class="flex items-center space-x-2">
-              <input type="checkbox" id="applyAll" name="apply_all" value="1" class="w-4 h-4 cursor-pointer">
-              <label for="applyAll" class="text-gray-700 cursor-pointer">Apply to everyone</label>
+              <input type="checkbox" id="mealApplyAll" name="mealApplyAll" value="1" class="w-4 h-4 border cursor-pointer">
+              <label for="mealApplyAll" class="cursor-pointer">Apply to everyone</label>
             </div>
 
             <!-- User selection (hidden if apply_all is checked) -->
             <div id="userSelection" class="space-y-2">
-              <label class="block text-gray-600 font-medium">Select Members</label>
+              <label class="block text-green-800 font-medium">Select Members</label>
               <?php foreach ($users as $user): ?>
                 <div class="flex items-center space-x-2">
                   <input type="checkbox" id="user_<?= $user ?>" name="selected_users[]" value="<?= $user ?>" class="w-4 h-4 cursor-pointer">
@@ -115,15 +98,14 @@ $groceryData = [
             </div>
 
             <!-- Meal count -->
-            <input type="number" name="meals" placeholder="Number of meals" class="w-full border border-gray-400 rounded p-2" required>
+            <input type="number" name="mealCount" placeholder="Number of meals" class="w-full border border-green-400 rounded p-2 outline-0 focus:outline-1 focus:border-green-600 focus:outline-green-600" required>
 
             <!-- Submit -->
-            <button type="submit" class="w-full bg-green-600 text-white rounded-lg py-2 hover:bg-green-700">Save</button>
+            <button type="submit" class="w-full bg-green-600 text-white font-semibold rounded-lg py-2 hover:bg-green-700 cursor-pointer border-2 border-green-50">Save</button>
           </form>
         </div>
-
         <script>
-          const applyAllCheckbox = document.getElementById("applyAll");
+          const applyAllCheckbox = document.getElementById("mealApplyAll");
           const userSelection = document.getElementById("userSelection");
 
           // Toggle user selection visibility
@@ -136,64 +118,84 @@ $groceryData = [
           });
         </script>
 
-
         <!-- Grocery Entry -->
-        <div class="bg-white shadow-md rounded-xl p-6">
-          <h2 class="text-xl font-semibold mb-4">Add Grocery</h2>
+        <div class="bg-sky-50 border border-sky-600 text-black shadow-md rounded-xl p-6">
+          <h2 class="text-xl font-semibold mb-4 text-sky-800">Add Grocery</h2>
           <form action="actions/addGrocery.php" method="POST" class="space-y-3">
 
             <!-- Date -->
-            <input type="date" name="date" class="w-full border border-gray-400 rounded p-2" required>
+            <input type="date" name="groceryDate" class="w-full border border-sky-400 rounded p-2 outline-0 focus:outline-1 focus:border-sky-600 focus:outline-sky-600" required>
 
             <!-- Amount -->
-            <input type="number" step="0.01" name="amount" placeholder="Grocery amount" class="w-full border border-gray-400 rounded p-2" required>
+            <input type="number" step="0.01" name="groceryAmount" placeholder="Grocery amount" class="w-full border border-sky-400 rounded p-2 outline-0 focus:outline-1 focus:border-sky-600 focus:outline-sky-600" required>
 
             <!-- Short Note -->
-            <input type="text" name="note" placeholder="Short note (e.g., Rice, Vegetables)" class="w-full border border-gray-400 rounded p-2" maxlength="100">
+            <input type="text" name="groceryNote" placeholder="Short note (e.g., Rice, Vegetables)" class="w-full border border-sky-400 rounded p-2 outline-0 focus:outline-1 focus:border-sky-600 focus:outline-sky-600" maxlength="100">
 
             <!-- Submit -->
-            <button type="submit" class="w-full bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700">Save</button>
+            <button type="submit" class="w-full bg-sky-600 text-white font-semibold rounded-lg py-2 hover:bg-sky-700 cursor-pointer border-2 border-sky-50">Save</button>
+          </form>
+        </div>
+
+        <!-- Deposit Management -->
+        <div class="bg-purple-50 border border-purple-600 text-black shadow-md rounded-xl p-6">
+          <h2 class="text-xl font-semibold mb-4 text-purple-800">Add Deposit</h2>
+          <form action="actions/addDeposit.php" method="POST" class="space-y-3">
+            <!-- Select a Member Member -->
+            <select name="depositUser" class="w-full border border-purple-400 rounded p-2 outline-0 focus:outline-1 focus:border-purple-600 focus:outline-purple-600">
+              <?php foreach ($users as $user): ?>
+                <option value="<?= $user ?>"><?= $user ?></option>
+              <?php endforeach; ?>
+            </select>
+            <!-- Date -->
+            <input type="date" name="depositDate" class="w-full border border-purple-400 rounded p-2 outline-0 focus:outline-1 focus:border-purple-600 focus:outline-purple-600" required>
+
+            <!-- Amount -->
+            <input type="number" name="depositAmount" placeholder="Enter deposit amount" class="w-full border border-purple-400 rounded p-2 outline-0 focus:outline-1 focus:border-purple-600 focus:outline-purple-600" required>
+            <button type="submit" class="w-full bg-purple-600 text-white font-semibold rounded-lg py-2 hover:bg-purple-700 cursor-pointer border-2 border-purple-50">Save</button>
           </form>
         </div>
 
       </div>
 
       <!-- Grocery History Table -->
-      <div class="bg-white shadow-md rounded-xl p-6 mt-6">
-        <h2 class="text-xl font-semibold mb-4">Grocery History</h2>
+      <div class="bg-red-50 border border-red-600 shadow-md rounded-xl p-6 mt-6">
+        <h2 class="text-xl font-semibold mb-4 text-red-800">Grocery History</h2>
 
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Note</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <?php foreach ($groceryData as $index => $grocery): ?>
-                <tr class="even:bg-gray-100 hover:bg-gray-200">
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><?= date('M j, Y', strtotime($grocery['date'])) ?></td>
-                  <td class="px-6 py-4 text-sm text-gray-800"><?= htmlspecialchars($grocery['note']) ?></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><?= number_format($grocery['amount'], 2) ?></td>
+        <?php if (!empty($groceryData)): ?>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-red-200">
+                <tr class="text-red-800">
+                  <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Date</th>
+                  <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Note</th>
+                  <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Amount</th>
                 </tr>
-              <?php endforeach; ?>
-            </tbody>
-            <tfoot class="bg-gray-100">
-              <tr>
-                <td class="px-6 py-4 text-sm font-semibold text-gray-900" colspan="2">Total</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                  <?= number_format(array_sum(array_column($groceryData, 'amount')), 2) ?>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
+              </thead>
+              <tbody class="bg-red-100 divide-y divide-gray-200">
+                <?php foreach ($groceryData as $index => $grocery): ?>
+                  <tr class="even:bg-red-200 hover:bg-red-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><?= date('M j, Y', strtotime($grocery['date'])) ?></td>
+                    <td class="px-6 py-4 text-sm text-gray-800"><?= htmlspecialchars($grocery['note']) ?></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><?= number_format($grocery['amount'], 2) ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+              <tfoot class="bg-red-200">
+                <tr>
+                  <td class="px-6 py-4 text-sm font-semibold text-red-900" colspan="2">Total</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-red-900">
+                    <?= number_format(array_sum(array_column($groceryData, 'amount')), 2) ?>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        <?php endif; ?>
 
         <!-- If no grocery data exists -->
         <?php if (empty($groceryData)): ?>
-          <div class="text-center py-8 text-gray-500">
+          <div class="text-center py-8 text-red-800">
             <p>No grocery data available yet.</p>
           </div>
         <?php endif; ?>
