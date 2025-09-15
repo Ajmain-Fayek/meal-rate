@@ -1,28 +1,33 @@
+<?php
+function activeClass($file)
+{
+  return basename($_SERVER['PHP_SELF']) === $file
+    ? "bg-blue-100 text-blue-600"
+    : "bg-white text-gray-700";
+};
+?>
+
 <aside
-  class="p-2 w-64 bg-gray-100 border-r border-gray-300 min-h-[calc(100vh-185px)]"
->
+  class="p-2 w-64 bg-gray-100 border-r border-gray-300 min-h-[calc(100vh-185px)]">
   <nav class="">
     <ul class="space-y-2">
       <!-- Dashboard -->
       <li>
         <a
           href="./dashboard.php"
-          class="flex items-center active:scale-95 px-6 py-3 bg-blue-100 text-gray-700 hover:bg-blue-100 hover:text-blue-600 transition rounded-lg"
-        >
+          class="flex items-center active:scale-95 px-6 py-3 hover:bg-blue-100 hover:text-blue-600 transition rounded-lg <?= activeClass('dashboard.php') ?>">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
+            xmlns=" http://www.w3.org/2000/svg"
             class="h-5 w-5 mr-3"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
+            stroke="currentColor">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
               d="M3 12l2-2m0 0l7-7 7 7m-9 2v8m4-8h5a2 2 0 012 2v7a2 2 0 
-                   01-2 2h-5m-4 0H6a2 2 0 01-2-2v-7a2 2 0 012-2h5"
-            />
+                   01-2 2h-5m-4 0H6a2 2 0 01-2-2v-7a2 2 0 012-2h5" />
           </svg>
           Dashboard
         </a>
@@ -32,21 +37,18 @@
       <li>
         <a
           href="./../auth/logout.php"
-          class="flex items-center active:scale-95 px-6 py-3 hover:bg-red-200 hover:text-red-600 transition rounded-lg bg-red-100"
-        >
+          class="flex items-center active:scale-95 px-6 py-3 hover:bg-red-200 hover:text-red-600 transition rounded-lg bg-red-100">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5 mr-3"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
+            stroke="currentColor">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-            />
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
           Logout
         </a>

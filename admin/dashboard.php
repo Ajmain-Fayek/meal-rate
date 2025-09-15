@@ -65,13 +65,34 @@ $groceryData = [
 
     <!-- Main container -->
     <div class="p-4 space-y-4 w-full bg-radial-[at_25%_25%] from-purple-100 to-blue-200">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+        <!-- Select month to display reports -->
+        <form method="GET" action="report.php" class="flex items-center space-x-2">
+          <label for="statsOfMonth" class="text-xl font-semibold">Report of</label>
+          <select
+            name="statsOfMonth"
+            id="statsOfMonth"
+            class="border border-purple-900 bg-purple-100 rounded-md p-2 font-semibold"
+            onchange="this.form.submit()">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </form>
+      </div>
 
-      <h1 class="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard</h1>
 
       <div class="grid grid-cols-1 items-start md:grid-cols-2 xl:grid-cols-3 gap-6">
-
-
-
         <!-- Meal Entry -->
         <div class="bg-green-50 border border-green-600 text-black shadow-md rounded-xl p-6">
           <h2 class="text-xl font-semibold mb-4 text-green-700">Add Meal</h2>
@@ -142,7 +163,7 @@ $groceryData = [
           <h2 class="text-xl font-semibold mb-4 text-purple-800">Add Deposit</h2>
           <form action="actions/addDeposit.php" method="POST" class="space-y-3">
             <!-- Select a Member Member -->
-            <select name="depositUser" class="w-full border border-purple-400 rounded p-2 outline-0 focus:outline-1 focus:border-purple-600 focus:outline-purple-600">
+            <select name="depositUser" class="w-full border bg-purple-50 border-purple-400 rounded p-2 outline-0 focus:outline-1 focus:border-purple-600 focus:outline-purple-600">
               <?php foreach ($users as $user): ?>
                 <option value="<?= $user ?>"><?= $user ?></option>
               <?php endforeach; ?>

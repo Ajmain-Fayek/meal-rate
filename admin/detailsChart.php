@@ -86,7 +86,32 @@ foreach ($members as $data) {
 
     <!-- Main container -->
     <div class="p-4 space-y-4 w-full bg-radial-[at_25%_25%] from-purple-100 to-blue-200">
-      <h1 class="text-2xl font-bold text-gray-800 mb-6">Details Chart</h1>
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Details Chart</h1>
+        <!-- Select month to display reports -->
+        <form method="GET" action="report.php" class="flex items-center space-x-2">
+          <label for="statsOfMonth" class="text-xl font-semibold">Report of</label>
+          <select
+            name="statsOfMonth"
+            id="statsOfMonth"
+            class="border border-purple-900 bg-purple-100 rounded-md p-2 font-semibold"
+            onchange="this.form.submit()">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </form>
+      </div>
+
 
       <!-- Cards container -->
       <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-6">

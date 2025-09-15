@@ -19,11 +19,11 @@
 
         <!-- Group Name -->
         <div>
-          <label for="group-name" class="block text-sm font-medium text-gray-700">Group Name
+          <label for="groupName" class="block text-sm font-medium text-gray-700">Group Name
             <br />
-            <span class="text-red-500">*case-sensitive, this will use as username for login</span>
+            <span class="text-red-500 font-normal">*Case-sensitive! This will use as username for login</span>
           </label>
-          <input type="text" id="group-name" name="group-name" required
+          <input type="text" id="groupName" name="groupName" required
             placeholder="Ex: Engineers-Home"
             class="w-full mt-1 px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300" />
         </div>

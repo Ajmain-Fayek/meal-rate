@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("./../libs/db.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +22,18 @@
         View your dashboard, track expenses, and stay updated effortlessly.
 
       </p>
-      <form action="login_process.php" method="post" class="space-y-5">
+
+      <!-- Login  Error Message -->
+      <?php if (isset($_SESSION["login_error"]) && $_SESSION["login_error"]): ?>
+        <p class="p-2 mb-4 text-center rounded-lg bg-red-100 text-red-700 border border-red-600">
+          <?php echo $_SESSION["login_error"];
+          // remove login error after displaying
+          $_SESSION["login_error"] = "";
+          ?>
+        </p>
+      <?php endif; ?>
+
+      <form action="memberLoginProcess.php" method="post" class="space-y-5">
 
         <!-- phone -->
         <div>

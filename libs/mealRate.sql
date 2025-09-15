@@ -56,7 +56,7 @@ INSERT INTO groups (name, password) VALUES ('SQL', 'sql123');
 
 -- Insert sample members
 INSERT INTO members (name, phone, groupID) VALUES 
-('Ajmain', '0123456789', 1),
+('Ajmain', '0123456793', 1),
 ('Proma', '0123456790', 1),
 ('Zeba', '0123456791', 1),
 ('Shihab', '0123456792', 1);

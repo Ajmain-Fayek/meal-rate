@@ -1,4 +1,9 @@
 <?php
+session_start();
+include("./../libs/db.php");
+?>
+
+<?php
 
 // Example member data (dynamic later from DB)
 $member = [
@@ -34,15 +39,42 @@ $member = [
   <div class="min-h-[calc(100vh-185px)] flex">
     <!-- Side Bar -->
     <?php
-    include("./../components/memberSideBar.html")
+    include("./../components/memberSideBar.php")
     ?>
 
     <!-- Main container -->
     <div class="p-4 space-y-4 w-full bg-radial-[at_25%_25%] from-purple-100 to-blue-200">
+
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Detailed Chart of <span class="text-blue-700"><?= $_SESSION['member_name'] ?></span></h1>
+        <!-- Select month to display reports -->
+        <form method="GET" action="report.php" class="flex items-center space-x-2">
+          <label for="statsOfMonth" class="text-xl font-semibold">Report of</label>
+          <select
+            name="statsOfMonth"
+            id="statsOfMonth"
+            class="border border-purple-900 bg-purple-100 rounded-md p-2 font-semibold"
+            onchange="this.form.submit()">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </form>
+      </div>
+
       <div class="bg-white shadow-md rounded-2xl overflow-hidden border border-gray-200">
         <!-- Header -->
         <div class="px-4 py-3 bg-amber-500">
-          <h2 class=" text-lg font-semibold text-center"><?= $member["name"] ?></h2>
+          <h2 class=" text-lg font-semibold text-center"><?= $_SESSION["member_name"] ?></h2>
         </div>
 
         <!-- Body -->

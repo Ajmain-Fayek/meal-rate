@@ -14,7 +14,7 @@ if (empty($group_name) || empty($password)) {
 }
 
 // Check if group exists and password matches
-$sql = "SELECT ID, Name, Password FROM Groups WHERE Name = ?";
+$sql = "SELECT id, name, password FROM groups WHERE name = ?";
 $stmt = $conn->prepare($sql);
 
 if ($stmt) {
@@ -26,10 +26,10 @@ if ($stmt) {
     $group = $result->fetch_assoc();
 
     // Verify password (assuming plain text for now)
-    if ($password === $group['Password']) {
+    if ($password === $group['password']) {
       // Set session variables
-      $_SESSION['group_id'] = $group['ID'];
-      $_SESSION['group_name'] = $group['Name'];
+      $_SESSION['group_id'] = $group['id'];
+      $_SESSION['group_name'] = $group['name'];
       $_SESSION['logged_in'] = true;
 
       // Redirect to dashboard
