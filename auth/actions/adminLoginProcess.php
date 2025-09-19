@@ -1,10 +1,10 @@
 <?php
-session_start();
-include("../libs/db.php");
+if (session_status() === PHP_SESSION_NONE) session_start();
+include(__DIR__ . "/../../libs/db.php");
 
 // Get form data
-$group_name = $_POST['group-name'];
-$password = $_POST['password'];
+$group_name = trim($_POST['group-name'] ?? '');
+$password   = trim($_POST['password'] ?? '');
 
 // Validate input
 if (empty($group_name) || empty($password)) {
@@ -13,7 +13,7 @@ if (empty($group_name) || empty($password)) {
   exit();
 }
 
-// Check if group exists and password matches
+// Check if group exists
 $sql = "SELECT id, name, password FROM groups WHERE name = ?";
 $stmt = $conn->prepare($sql);
 
@@ -25,17 +25,17 @@ if ($stmt) {
   if ($result->num_rows === 1) {
     $group = $result->fetch_assoc();
 
-    // Verify password (assuming plain text for now)
-    if ($password === $group['password']) {
+    // Verify hashed password
+    if (password_verify($password, $group['password'])) {
       // Set session variables
-      $_SESSION['group_id'] = $group['id'];
-      $_SESSION['group_name'] = $group['name'];
-      $_SESSION['logged_in'] = true;
-      $_SESSION['month'] = date('n');
-      $_SESSION['year'] = date('Y');
+      $_SESSION['group_id']    = $group['id'];
+      $_SESSION['group_name']  = $group['name'];
+      $_SESSION['logged_in']   = true;
+      $_SESSION['month']       = date('n');
+      $_SESSION['year']        = date('Y');
 
       // Redirect to dashboard
-      header("Location: ./../admin/dashboard.php");
+      header("Location: ./../../admin/dashboard.php");
       exit();
     } else {
       $_SESSION['login_error'] = "Invalid password";
@@ -50,5 +50,5 @@ if ($stmt) {
 }
 
 // If login failed, redirect back to login page
-header("Location: login.php");
+header("Location: ./../login.php");
 exit();

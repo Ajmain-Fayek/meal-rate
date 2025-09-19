@@ -33,7 +33,7 @@ include("./../libs/db.php");
         </p>
       <?php endif; ?>
 
-      <form action="memberLoginProcess.php" method="post" class="space-y-5">
+      <form action="actions/memberLoginProcess.php" method="post" class="space-y-5">
 
         <!-- phone -->
         <div>

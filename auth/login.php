@@ -24,15 +24,21 @@ include("./../libs/db.php");
       </p>
 
       <?php if (isset($_SESSION["login_error"]) && $_SESSION["login_error"]): ?>
-        <p class="p-2 mb-4 text-center rounded-lg bg-red-100 text-red-700 border border-red-600">
+        <p class="p-2 mb-4 bg-red-100 text-red-800 rounded shadow">
           <?php echo $_SESSION["login_error"];
           // remove login error after displaying
           $_SESSION["login_error"] = "";
           ?>
         </p>
       <?php endif; ?>
+      <?php if (isset($_SESSION['register_success'])): ?>
+        <div class="p-2 mb-4 bg-green-100 text-green-800 rounded shadow">
+          <?= htmlspecialchars($_SESSION['register_success']) ?>
+        </div>
+        <?php unset($_SESSION['register_success']); ?>
+      <?php endif; ?>
 
-      <form action="adminLoginProcess.php" method="post" class="space-y-5">
+      <form action="actions/adminLoginProcess.php" method="post" class="space-y-5">
 
         <!-- Group Name -->
         <div>

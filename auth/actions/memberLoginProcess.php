@@ -1,6 +1,6 @@
 <?php
-session_start();
-include("../libs/db.php");
+if (session_status() === PHP_SESSION_NONE) session_start();
+include(__DIR__ . "/../../libs/db.php");
 
 // Get form data
 $phone = $_POST['phone'];
@@ -29,12 +29,13 @@ if ($stmt) {
       // Set session variables
       $_SESSION['member_id'] = $member['id'];
       $_SESSION['member_name'] = $member['name'];
+      $_SESSION['group_id'] = $member['groupID'];
       $_SESSION['logged_in'] = true;
       $_SESSION['month'] = date('n');
       $_SESSION['year'] = date('Y');
 
       // Redirect to dashboard
-      header("Location: ./../member/dashboard.php");
+      header("Location: ./../../member/dashboard.php");
       exit();
     } else {
       $_SESSION['login_error'] = "Invalid Phone";
@@ -49,5 +50,5 @@ if ($stmt) {
 }
 
 // If login failed, redirect back to login page
-header("Location: member.php");
+header("Location: ./../member.php");
 exit();

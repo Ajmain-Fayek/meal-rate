@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("./../libs/db.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +20,7 @@
         Your all-in-one solution for easy meal management.<br />
         Track, and plan your meals effortlessly.
       </p>
-      <form action="register_process.php" method="POST" class="space-y-5">
+      <form action="actions/registerProcess.php" method="POST" class="space-y-5">
 
         <!-- Group Name -->
         <div>
@@ -65,6 +70,15 @@
             </button>
           </div>
         </div>
+        <!-- Confirm Password -->
+        <div>
+          <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+          <div class="relative">
+            <input type="password" id="confirmPassword" name="confirmPassword" required
+              placeholder="Re-type Password"
+              class="w-full mt-1 px-4 py-2 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none border-gray-300 pr-10" />
+          </div>
+        </div>
 
         <!-- Script for password toggle -->
         <script>
@@ -87,6 +101,12 @@
           Register
         </button>
       </form>
+      <?php if (isset($_SESSION['register_error'])): ?>
+        <div class="mt-3 p-2 bg-red-100 text-red-800 rounded shadow">
+          <?= htmlspecialchars($_SESSION['register_error']) ?>
+        </div>
+        <?php unset($_SESSION['register_error']); ?>
+      <?php endif; ?>
 
       <!-- Admin Login Link -->
       <p class="mt-6 text-center text-sm text-gray-600">
