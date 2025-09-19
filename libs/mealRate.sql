@@ -50,13 +50,3 @@ CREATE TABLE meals (
     FOREIGN KEY (memberID) REFERENCES members(id) ON DELETE CASCADE,
     FOREIGN KEY (groupID) REFERENCES groups(id) ON DELETE CASCADE
 );
-
--- Insert a sample group (password: admin123)
-INSERT INTO groups (name, password) VALUES ('SQL', 'sql123');
-
--- Insert sample members
-INSERT INTO members (name, phone, groupID) VALUES 
-('Ajmain', '0123456793', 1),
-('Proma', '0123456790', 1),
-('Zeba', '0123456791', 1),
-('Shihab', '0123456792', 1);
