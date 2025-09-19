@@ -30,6 +30,8 @@ if ($stmt) {
       $_SESSION['member_id'] = $member['id'];
       $_SESSION['member_name'] = $member['name'];
       $_SESSION['logged_in'] = true;
+      $_SESSION['month'] = date('n');
+      $_SESSION['year'] = date('Y');
 
       // Redirect to dashboard
       header("Location: ./../member/dashboard.php");

@@ -1,6 +1,11 @@
 <?php
 session_start();
 include("./../libs/db.php");
+// Make sure Member is logged in
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+  header("Location: ./../auth/member.php");
+  exit();
+}
 ?>
 
 <?php

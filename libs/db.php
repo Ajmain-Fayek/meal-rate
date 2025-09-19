@@ -19,5 +19,3 @@ try {
   header("Location: ./../error.php?code=" . $errorCode . "&message=" . urlencode($errorMessage));
   exit();
 }
-
-?>

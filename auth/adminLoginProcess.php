@@ -31,6 +31,8 @@ if ($stmt) {
       $_SESSION['group_id'] = $group['id'];
       $_SESSION['group_name'] = $group['name'];
       $_SESSION['logged_in'] = true;
+      $_SESSION['month'] = date('n');
+      $_SESSION['year'] = date('Y');
 
       // Redirect to dashboard
       header("Location: ./../admin/dashboard.php");

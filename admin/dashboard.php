@@ -1,43 +1,36 @@
 <?php
-session_start();
-include("../libs/db.php");
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
+include("./../libs/db.php");
+include("./dashboardActions/fetchMembers.php");
+include("./dashboardActions/addGrocery.php");
+include("./dashboardActions/fetchGrocery.php");
 
-// Redirect to login if not authenticated
+// Make sure group is logged in
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-  header("Location: login.php");
+  // Destroy the session
+  session_destroy();
+
+  header("Location: ./../error.php");
   exit();
 }
 
-// Get group ID from session
-$group_id = $_SESSION['group_id'];
-$group_name = $_SESSION['group_name'];
-
-// Fetch group statistics (you can customize this based on your needs)
-$members_count = 0;
-$total_deposits = 0;
-$total_meals = 0;
-
-$sql = "SELECT COUNT(*) as count FROM Members WHERE GroupID = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $group_id);
-$stmt->execute();
-$result = $stmt->get_result();
-if ($row = $result->fetch_assoc()) {
-  $members_count = $row['count'];
+// Default to current month if session not set
+if (!isset($_SESSION['month'])) {
+  $_SESSION['month'] = date('n');
 }
 
+// Update session if user selects a month
+if (isset($_GET['statsOfMonth'])) {
+  $_SESSION['month'] = (int) $_GET['statsOfMonth'];
+}
+
+$selectedMonth = $_SESSION['month'];
 
 // Later replace with DB connection
-$users = ["Ajmain", "Nobel", "Siddik", "Sabbir", "Faisal"];
+$users = $members;
 
-// Sample grocery data (to be replaced with database data)
-$groceryData = [
-  ["date" => "2023-10-15", "note" => "Rice & Vegetables", "amount" => 1250.50],
-  ["date" => "2023-10-12", "note" => "Chicken & Spices", "amount" => 980.00],
-  ["date" => "2023-10-08", "note" => "Fish & Oil", "amount" => 750.75],
-  ["date" => "2023-10-03", "note" => "Fruits & Snacks", "amount" => 620.25],
-  ["date" => "2023-09-28", "note" => "Monthly Bulk Purchase", "amount" => 3250.00],
-];
 ?>
 
 <!DOCTYPE html>
@@ -68,25 +61,34 @@ $groceryData = [
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
         <!-- Select month to display reports -->
-        <form method="GET" action="report.php" class="flex items-center space-x-2">
+        <form method="GET" action="./dashboard.php" class="flex items-center space-x-2">
           <label for="statsOfMonth" class="text-xl font-semibold">Report of</label>
           <select
             name="statsOfMonth"
             id="statsOfMonth"
             class="border border-purple-900 bg-purple-100 rounded-md p-2 font-semibold"
             onchange="this.form.submit()">
-            <option value="1">January</option>
-            <option value="2">February</option>
-            <option value="3">March</option>
-            <option value="4">April</option>
-            <option value="5">May</option>
-            <option value="6">June</option>
-            <option value="7">July</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
+            <?php
+            $months = [
+              1 => 'January',
+              2 => 'February',
+              3 => 'March',
+              4 => 'April',
+              5 => 'May',
+              6 => 'June',
+              7 => 'July',
+              8 => 'August',
+              9 => 'September',
+              10 => 'October',
+              11 => 'November',
+              12 => 'December'
+            ];
+
+            foreach ($months as $num => $name) {
+              $selected = ($num == $selectedMonth) ? 'selected' : '';
+              echo "<option value=\"$num\" $selected>$name</option>";
+            }
+            ?>
           </select>
         </form>
       </div>
@@ -96,10 +98,10 @@ $groceryData = [
         <!-- Meal Entry -->
         <div class="bg-green-50 border border-green-600 text-black shadow-md rounded-xl p-6">
           <h2 class="text-xl font-semibold mb-4 text-green-700">Add Meal</h2>
-          <form action="actions/addMeal.php" method="POST" class="space-y-3">
+          <form action="./dashboardActions/addMeal.php" method="POST" class="space-y-3">
 
             <!-- Date -->
-            <input type="date" name="mealDate" class="w-full border border-green-400 rounded p-2 outline-0 focus:outline-1 focus:border-green-600 focus:outline-green-600" required>
+            <input type="date" value="<?= date('Y-m-d') ?>" name="mealDate" class="w-full border border-green-400 rounded p-2 outline-0 focus:outline-1 focus:border-green-600 focus:outline-green-600" required>
 
             <!-- Apply to all checkbox -->
             <div class="flex items-center space-x-2">
@@ -112,8 +114,8 @@ $groceryData = [
               <label class="block text-green-800 font-medium">Select Members</label>
               <?php foreach ($users as $user): ?>
                 <div class="flex items-center space-x-2">
-                  <input type="checkbox" id="user_<?= $user ?>" name="selected_users[]" value="<?= $user ?>" class="w-4 h-4 cursor-pointer">
-                  <label for="user_<?= $user ?>" class="cursor-pointer"><?= $user ?></label>
+                  <input type="checkbox" id="user_<?= $user['id'] ?>" name="selected_users[]" value="<?= $user['id'] ?>" class="w-4 h-4 cursor-pointer">
+                  <label for="user_<?= $user['id'] ?>" class="cursor-pointer"><?= $user['name'] ?></label>
                 </div>
               <?php endforeach; ?>
             </div>
@@ -124,6 +126,20 @@ $groceryData = [
             <!-- Submit -->
             <button type="submit" class="w-full bg-green-600 text-white font-semibold rounded-lg py-2 hover:bg-green-700 cursor-pointer border-2 border-green-50">Save</button>
           </form>
+          <?php if (isset($_SESSION['meal_success'])): ?>
+            <div class="mt-3 p-2 bg-green-100 text-green-800 rounded shadow">
+              <?= htmlspecialchars($_SESSION['meal_success']) ?>
+            </div>
+            <?php unset($_SESSION['meal_success']); ?>
+          <?php endif; ?>
+
+          <?php if (isset($_SESSION['meal_error'])): ?>
+            <div class="mt-3 p-2 bg-red-100 text-red-800 rounded shadow">
+              <?= htmlspecialchars($_SESSION['meal_error']) ?>
+            </div>
+            <?php unset($_SESSION['meal_error']); ?>
+          <?php endif; ?>
+
         </div>
         <script>
           const applyAllCheckbox = document.getElementById("mealApplyAll");
@@ -142,10 +158,10 @@ $groceryData = [
         <!-- Grocery Entry -->
         <div class="bg-sky-50 border border-sky-600 text-black shadow-md rounded-xl p-6">
           <h2 class="text-xl font-semibold mb-4 text-sky-800">Add Grocery</h2>
-          <form action="actions/addGrocery.php" method="POST" class="space-y-3">
+          <form action="./dashboardActions/addGrocery.php" method="POST" class="space-y-3">
 
             <!-- Date -->
-            <input type="date" name="groceryDate" class="w-full border border-sky-400 rounded p-2 outline-0 focus:outline-1 focus:border-sky-600 focus:outline-sky-600" required>
+            <input type="date" value="<?= date('Y-m-d') ?>" name="groceryDate" class="w-full border border-sky-400 rounded p-2 outline-0 focus:outline-1 focus:border-sky-600 focus:outline-sky-600" required>
 
             <!-- Amount -->
             <input type="number" step="0.01" name="groceryAmount" placeholder="Grocery amount" class="w-full border border-sky-400 rounded p-2 outline-0 focus:outline-1 focus:border-sky-600 focus:outline-sky-600" required>
@@ -156,25 +172,53 @@ $groceryData = [
             <!-- Submit -->
             <button type="submit" class="w-full bg-sky-600 text-white font-semibold rounded-lg py-2 hover:bg-sky-700 cursor-pointer border-2 border-sky-50">Save</button>
           </form>
+          <?php if (isset($_SESSION['grocery_success'])): ?>
+            <div class="mt-3 p-2 bg-green-100 text-green-800 rounded shadow">
+              <?= htmlspecialchars($_SESSION['grocery_success']) ?>
+            </div>
+            <?php unset($_SESSION['grocery_success']); ?>
+          <?php endif; ?>
+
+          <?php if (isset($_SESSION['grocery_error'])): ?>
+            <div class="mt-3 p-2 bg-red-100 text-red-800 rounded shadow">
+              <?= htmlspecialchars($_SESSION['grocery_error']) ?>
+            </div>
+            <?php unset($_SESSION['grocery_error']); ?>
+          <?php endif; ?>
+
         </div>
 
         <!-- Deposit Management -->
         <div class="bg-purple-50 border border-purple-600 text-black shadow-md rounded-xl p-6">
           <h2 class="text-xl font-semibold mb-4 text-purple-800">Add Deposit</h2>
-          <form action="actions/addDeposit.php" method="POST" class="space-y-3">
+          <form action="./dashboardActions/addDeposit.php" method="POST" class="space-y-3">
             <!-- Select a Member Member -->
             <select name="depositUser" class="w-full border bg-purple-50 border-purple-400 rounded p-2 outline-0 focus:outline-1 focus:border-purple-600 focus:outline-purple-600">
+              <option value="" disabled selected>Select Member</option>
               <?php foreach ($users as $user): ?>
-                <option value="<?= $user ?>"><?= $user ?></option>
+                <option value="<?= $user['id'] ?>"><?= $user['name'] ?></option>
               <?php endforeach; ?>
             </select>
             <!-- Date -->
-            <input type="date" name="depositDate" class="w-full border border-purple-400 rounded p-2 outline-0 focus:outline-1 focus:border-purple-600 focus:outline-purple-600" required>
+            <input type="date" value="<?= date('Y-m-d') ?>" name="depositDate" class="w-full border border-purple-400 rounded p-2 outline-0 focus:outline-1 focus:border-purple-600 focus:outline-purple-600" required>
 
             <!-- Amount -->
             <input type="number" name="depositAmount" placeholder="Enter deposit amount" class="w-full border border-purple-400 rounded p-2 outline-0 focus:outline-1 focus:border-purple-600 focus:outline-purple-600" required>
             <button type="submit" class="w-full bg-purple-600 text-white font-semibold rounded-lg py-2 hover:bg-purple-700 cursor-pointer border-2 border-purple-50">Save</button>
           </form>
+          <?php if (isset($_SESSION['deposit_success'])): ?>
+            <div class="mt-3 p-2 bg-green-100 text-green-800 rounded shadow">
+              <?= htmlspecialchars($_SESSION['deposit_success']) ?>
+            </div>
+            <?php unset($_SESSION['deposit_success']); ?>
+          <?php endif; ?>
+
+          <?php if (isset($_SESSION['deposit_error'])): ?>
+            <div class="mt-3 p-2 bg-red-100 text-red-800 rounded shadow">
+              <?= htmlspecialchars($_SESSION['deposit_error']) ?>
+            </div>
+            <?php unset($_SESSION['deposit_error']); ?>
+          <?php endif; ?>
         </div>
 
       </div>
@@ -198,7 +242,7 @@ $groceryData = [
                   <tr class="even:bg-red-200 hover:bg-red-50">
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><?= date('M j, Y', strtotime($grocery['date'])) ?></td>
                     <td class="px-6 py-4 text-sm text-gray-800"><?= htmlspecialchars($grocery['note']) ?></td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><?= number_format($grocery['amount'], 2) ?></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800"><?= number_format($grocery['amount'], 1) ?></td>
                   </tr>
                 <?php endforeach; ?>
               </tbody>
@@ -206,7 +250,7 @@ $groceryData = [
                 <tr>
                   <td class="px-6 py-4 text-sm font-semibold text-red-900" colspan="2">Total</td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-red-900">
-                    <?= number_format(array_sum(array_column($groceryData, 'amount')), 2) ?>
+                    <?= number_format(array_sum(array_column($groceryData, 'amount')), 1) ?>
                   </td>
                 </tr>
               </tfoot>
